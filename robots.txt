@@ -1,1 +1,8 @@
+# robots.txt para leandrorodriguez.com.br
+# Permite indexação completa e informa o sitemap.
+
+User-agent: *
+Disallow:
+
+Sitemap: https://leandrorodriguez.com.br/sitemap.xml
 
