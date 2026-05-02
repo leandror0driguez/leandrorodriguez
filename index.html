@@ -1,163 +1,609 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Leandro Maciel — Técnico em Eletrotécnica</title>
-  <meta name="description" content="Site pessoal minimalista de Leandro Maciel — técnico em eletrotécnica.">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <!--
-    Suckless-inspired: no JS, no build, no trackers. One file + optional local font files.
-    To use Nerd Fonts locally, drop WOFF2 files into ./fonts and keep the names below
-    or adjust the src URLs.
-  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Leandro Maciel — Engenheiro Eletricista Em Formação. Blog técnico, projetos de engenharia e ideias.">
+  <title>Leandro Maciel</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=IBM+Plex+Serif:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
-    /* ===== Typography (Nerd Font first, then system monospace) ===== */
-    @font-face {
-      font-family: "JetBrainsMono NF";
-      src: url("fonts/JetBrainsMonoNerdFont-Regular.woff2") format("woff2");
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: "JetBrainsMono NF";
-      src: url("fonts/JetBrainsMonoNerdFont-Bold.woff2") format("woff2");
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0b0b0c;
-      --fg: #e6e6e6;
-      --muted: #9aa0a6;
-      --link: #8ab4f8;
-      --link-hover: #a2c3ff;
-      --line: #272a2f;
-      --accent: #22d3ee;
+      --navy-deep:   #030812;
+      --navy-0:      #060d1f;
+      --navy-1:      #0a1428;
+      --navy-2:      #0f1e38;
+      --navy-3:      #162544;
+      --navy-line:   #1e304f;
+      --navy-mid:    #2a4570;
+
+      --gold:        #b8922a;
+      --gold-bright: #d4aa48;
+      --gold-muted:  #7a5e1a;
+      --gold-glow:   rgba(184,146,42,0.10);
+
+      --white:       #f0ece3;
+      --white-2:     #b8b0a0;
+      --white-3:     #6a6258;
+      --white-4:     #353028;
+
+      --display: 'Bodoni Moda', 'Times New Roman', serif;
+      --body:    'IBM Plex Serif', Georgia, serif;
+      --mono:    'IBM Plex Mono', monospace;
+
+      --max: 1100px;
     }
 
-    html { color-scheme: dark; }
+    html { scroll-behavior: smooth; }
+
     body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font: 16px/1.55 "JetBrainsMono NF", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
-      -webkit-text-size-adjust: 100%;
+      background: var(--navy-0);
+      color: var(--white);
+      font-family: var(--body);
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ===== Layout ===== */
-    .wrap { max-width: 72ch; margin: 0 auto; padding: 2rem 1rem; }
-    header, main, footer { border-bottom: 1px solid var(--line); }
-    footer { border-bottom: 0; border-top: 1px solid var(--line); }
+    a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--gold-bright); }
+    ::selection { background: var(--gold-muted); color: var(--white); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--navy-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--navy-3); }
 
-    /* ===== Navigation ===== */
-    .topbar { display: flex; gap: .75rem; align-items: center; justify-content: space-between; }
-    .brand { font-weight: 700; letter-spacing: .3px; display: flex; align-items: center; gap: .5rem; }
-    .brand .icon { color: var(--accent); }
-    nav a { color: inherit; text-decoration: none; padding: .25rem .4rem; border-radius: .25rem; }
-    nav a:hover, nav a:focus { outline: 0; background: var(--line); }
+    /* ── NAV ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      border-bottom: 1px solid var(--navy-line);
+      background: rgba(6,13,31,0.96);
+      backdrop-filter: blur(16px);
+    }
+    nav {
+      max-width: var(--max); margin: 0 auto; padding: 0 3rem;
+      height: 60px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: baseline; gap: 0.6rem; }
+    .nav-initials {
+      font-family: var(--display); font-size: 1.3rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.05em;
+    }
+    .nav-sep { width: 1px; height: 14px; background: var(--navy-line); align-self: center; }
+    .nav-full {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--white-3);
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--white-3); transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      color: var(--gold) !important;
+      border: 1px solid var(--gold-muted);
+      padding: 0.4rem 1rem; transition: all 0.2s !important;
+    }
+    .nav-cta:hover {
+      background: var(--gold-glow) !important;
+      border-color: var(--gold) !important;
+      color: var(--gold-bright) !important;
+    }
 
-    /* ===== Content ===== */
-    h1, h2, h3 { line-height: 1.2; margin: 1.2em 0 .4em; }
-    h1 { font-size: 1.6rem; }
-    h2 { font-size: 1.25rem; border-bottom: 1px dashed var(--line); padding-bottom: .2rem; }
-    h3 { font-size: 1.05rem; color: var(--muted); font-weight: 600; }
-    p { margin: .8em 0; }
-    a { color: var(--link); }
-    a:hover { color: var(--link-hover); }
-    ul { padding-left: 1.2rem; }
-    code, pre { background: transparent; border: 1px dashed var(--line); padding: .1rem .25rem; border-radius: .2rem; }
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      position: relative; padding: 0 3rem; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--navy-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--navy-line) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.15; pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; top: -20%; right: -10%;
+      width: 700px; height: 700px;
+      background: radial-gradient(ellipse, rgba(184,146,42,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: var(--max); margin: 0 auto; width: 100%;
+      padding-top: 60px; position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem;
+    }
+    .hero-eyebrow-line { width: 40px; height: 1px; background: var(--gold-muted); }
+    .hero-eyebrow-text {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(4.5rem, 11vw, 9rem);
+      font-weight: 900; line-height: 0.9;
+      letter-spacing: -0.02em; color: var(--white);
+    }
+    .hero-name-2 {
+      font-family: var(--display);
+      font-size: clamp(4.5rem, 11vw, 9rem);
+      font-weight: 400; font-style: italic; line-height: 0.9;
+      letter-spacing: -0.02em; color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .hero-rule {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, var(--gold-muted), var(--navy-line) 60%);
+      margin-bottom: 2.5rem;
+    }
+    .hero-bottom {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: end;
+    }
+    .hero-bio { font-size: 1.05rem; color: var(--white-2); line-height: 1.8; max-width: 480px; }
+    .hero-stats { display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-end; }
+    .stat { text-align: right; }
+    .stat-number {
+      font-family: var(--display); font-size: 2.5rem; font-weight: 700;
+      color: var(--gold); line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--white-3); margin-top: 0.15rem;
+    }
+    .hero-actions { margin-top: 3rem; display: flex; gap: 1rem; align-items: center; }
 
-    /* Card-ish blocks without JS/CSS frameworks */
-    .grid { display: grid; gap: 1rem; }
-    @media (min-width: 780px) { .grid { grid-template-columns: 1fr 1fr; } }
-    .card { border: 1px solid var(--line); border-radius: .4rem; padding: 1rem; }
-    .muted { color: var(--muted); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.8rem 1.75rem; border: 1px solid;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .btn-gold {
+      background: var(--gold); border-color: var(--gold);
+      color: var(--navy-deep); font-weight: 500;
+    }
+    .btn-gold:hover { background: var(--gold-bright); border-color: var(--gold-bright); color: var(--navy-deep); }
+    .btn-outline {
+      background: transparent; border-color: var(--navy-line); color: var(--white-2);
+    }
+    .btn-outline:hover { border-color: var(--white-3); color: var(--white); background: rgba(255,255,255,0.03); }
 
-    /* Media */
-    figure { margin: 1rem 0; }
-    img { max-width: 100%; height: auto; border-radius: .4rem; border: 1px solid var(--line); }
+    /* ── SECTIONS ── */
+    section { padding: 6rem 3rem; border-top: 1px solid var(--navy-line); }
+    .section-inner { max-width: var(--max); margin: 0 auto; }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3.5rem;
+    }
+    .section-label {
+      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: var(--display); font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: 700; line-height: 1.05; color: var(--white);
+    }
+    .see-all {
+      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--white-3);
+      border-bottom: 1px solid var(--navy-line); padding-bottom: 0.1rem;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .see-all:hover { color: var(--gold); border-color: var(--gold-muted); }
 
-    /* Footer */
-    .footlinks { display: flex; gap: .75rem; align-items: center; justify-content: center; flex-wrap: wrap; }
-    .small { font-size: .9rem; }
+    /* ── BLOG ── */
+    #blog { background: var(--navy-deep); }
+    .posts-list { display: flex; flex-direction: column; }
+    .post-item {
+      display: grid; grid-template-columns: 200px 1fr auto;
+      border-top: 1px solid var(--navy-line);
+      padding: 2rem 0; align-items: start;
+      transition: all 0.2s; cursor: pointer; position: relative;
+    }
+    .post-item:last-child { border-bottom: 1px solid var(--navy-line); }
+    .post-item::before {
+      content: ''; position: absolute;
+      left: -3rem; right: -3rem; top: 0; bottom: 0;
+      background: var(--gold-glow); opacity: 0; transition: opacity 0.2s; pointer-events: none;
+    }
+    .post-item:hover::before { opacity: 1; }
+    .post-date {
+      font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.06em;
+      color: var(--white-3); margin-bottom: 0.5rem;
+    }
+    .post-tag {
+      font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold);
+      border: 1px solid var(--gold-muted); padding: 0.15rem 0.5rem; display: inline-block;
+    }
+    .post-title {
+      font-family: var(--display); font-size: 1.4rem; font-weight: 500;
+      color: var(--white); line-height: 1.2; margin-bottom: 0.6rem;
+      transition: color 0.15s;
+    }
+    .post-item:hover .post-title { color: var(--gold-bright); }
+    .post-excerpt { font-size: 0.88rem; color: var(--white-3); line-height: 1.65; max-width: 520px; }
+    .post-arrow {
+      font-family: var(--mono); font-size: 1.1rem; color: var(--navy-line);
+      align-self: center; padding-left: 2rem; transition: all 0.2s;
+    }
+    .post-item:hover .post-arrow { color: var(--gold); transform: translateX(4px); }
 
-    /* Accessibility */
-    .skip { position: absolute; left: -9999px; }
-    .skip:focus { left: 0; background: var(--line); color: inherit; padding: .25rem .5rem; }
+    /* ── PROJECTS ── */
+    #projetos { background: var(--navy-0); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1px; background: var(--navy-line); border: 1px solid var(--navy-line);
+    }
+    .project-card {
+      background: var(--navy-0); padding: 2.5rem;
+      position: relative; overflow: hidden; transition: background 0.2s;
+    }
+    .project-card:hover { background: var(--navy-1); }
+    .project-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+    }
+    .project-card:hover::after { transform: scaleX(1); }
+    .project-num {
+      font-family: var(--display); font-size: 3.5rem; font-weight: 900;
+      color: var(--navy-2); line-height: 1; margin-bottom: 1rem; user-select: none;
+    }
+    .project-title {
+      font-family: var(--display); font-size: 1.2rem; font-weight: 500;
+      color: var(--white); margin-bottom: 0.75rem; line-height: 1.25;
+    }
+    .project-desc { font-size: 0.88rem; color: var(--white-3); line-height: 1.7; margin-bottom: 1.5rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--white-3);
+      border: 1px solid var(--navy-3); padding: 0.2rem 0.55rem;
+    }
+    .project-card:hover .tag { border-color: var(--navy-line); color: var(--white-2); }
+
+    /* ── ABOUT ── */
+    #sobre { background: var(--navy-deep); position: relative; overflow: hidden; }
+    #sobre::before {
+      content: 'LM';
+      position: absolute; right: -0.05em; bottom: -0.15em;
+      font-family: var(--display); font-size: clamp(12rem, 25vw, 22rem);
+      font-weight: 900; color: var(--navy-1); line-height: 1;
+      pointer-events: none; user-select: none; letter-spacing: -0.05em;
+    }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 320px;
+      gap: 5rem; align-items: start; position: relative; z-index: 1;
+    }
+    .about-text p { color: var(--white-2); margin-bottom: 1.25rem; font-size: 1rem; }
+    .sidebar-block { margin-bottom: 2.5rem; }
+    .sidebar-title {
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--navy-line);
+    }
+    .sidebar-list { list-style: none; }
+    .sidebar-list li {
+      display: flex; align-items: baseline; gap: 0.6rem;
+      font-size: 0.88rem; color: var(--white-2);
+      padding: 0.3rem 0; border-bottom: 1px solid rgba(30,48,79,0.5);
+    }
+    .sidebar-list li:last-child { border-bottom: none; }
+    .sidebar-list li::before {
+      content: '—'; color: var(--navy-mid); font-family: var(--mono);
+      font-size: 0.7rem; flex-shrink: 0;
+    }
+
+    /* ── CONTACT ── */
+    #contato { background: var(--navy-1); text-align: center; }
+    .contact-inner { max-width: 600px; margin: 0 auto; }
+    .contact-title {
+      font-family: var(--display); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700; color: var(--white); line-height: 1.05; margin-bottom: 1rem;
+    }
+    .contact-title em { font-style: italic; color: var(--gold); }
+    .contact-sub { color: var(--white-3); font-size: 0.95rem; margin-bottom: 2.5rem; }
+    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--navy-deep); border-top: 1px solid var(--navy-line); padding: 2rem 3rem; }
+    .footer-inner {
+      max-width: var(--max); margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-left { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.06em; color: var(--white-4); }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-4); }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-eyebrow  { animation: rise 0.7s 0.05s ease both; }
+      .hero-name     { animation: rise 0.7s 0.15s ease both; }
+      .hero-name-2   { animation: rise 0.7s 0.22s ease both; }
+      .hero-rule     { animation: rise 0.7s 0.3s  ease both; }
+      .hero-bottom   { animation: rise 0.7s 0.38s ease both; }
+      .hero-actions  { animation: rise 0.7s 0.45s ease both; }
+      @keyframes rise {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 800px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .nav-full, .nav-sep { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .hero { padding: 0 1.5rem; }
+      footer { padding: 1.75rem 1.5rem; }
+      .hero-name, .hero-name-2 { font-size: clamp(3.5rem, 14vw, 5.5rem); }
+      .hero-bottom { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-stats { align-items: flex-start; flex-direction: row; }
+      .post-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .post-left { display: flex; gap: 1rem; align-items: center; }
+      .post-arrow { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      #sobre::before { display: none; }
+      .footer-inner { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    }
   </style>
 </head>
+
 <body>
-  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-  <header>
-    <div class="wrap topbar">
-      <div class="brand">
-        <span>Leandro Maciel</span>
-      </div>
-      <nav aria-label="Navegação principal">
-        <a href="#sobre">sobre</a>
-        <a href="#blog">blog</a>
-        <a href="#contato">contato</a>
-      </nav>
+<header>
+  <nav>
+    <a href="/" class="nav-logo">
+      <span class="nav-initials">LM</span>
+      <span class="nav-sep"></span>
+      <span class="nav-full">Leandro Maciel</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#contato" class="nav-cta">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-line"></span>
+      <span class="hero-eyebrow-text">Salvador, Bahia — Engenharia Elétrica</span>
     </div>
-  </header>
-
-  <main id="conteudo">
-    <section id="sobre" class="wrap">
-      <h1>Técnico em Eletrotécnica</h1>
-      <p>
-        Profissional com experiência em instalações elétricas prediais, CLPs, máquinas elétricas e sistemas de geração de energia renovável.
-        Em busca de desafios para expandir competências em engenharia elétrica, com compromisso com excelência
-        técnica, segurança e soluções simples que funcionam.
-      </p>
-    </section>
-
-    <section id="blog" class="wrap">
-      <h2>Blog técnico</h2>
-
-      <article>
-    <h3>de Finibus Bonorum et Malorum</h3>
-    <p class="muted small">2026-02-27</p>
-    <p>Conteúdo completo do post aqui...</p>
-    <p>Mais parágrafos...</p>
-  </article>
-
-  <hr style="border: 0; border-top: 1px dashed var(--line); margin: 2rem 0;">
-
-  <article>
-    <h3>Outro Post</h3>
-    <p class="muted small">2026-02-27</p>
-    <p>Conteúdo...</p>
-  </article>
+    <div class="hero-name">LEANDRO</div>
+    <div class="hero-name-2">Maciel.</div>
+    <div class="hero-rule"></div>
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-bio">
+          Estagiário na Neoenergia Coelba (Iberdrola), técnico em eletrotécnica
+          e estudante de Engenharia Elétrica no IFBA. Tenho interesse em sistemas
+          elétricos, fotônica, código e nas ideias que sustentam tudo isso.
+        </p>
+        <div class="hero-actions">
+          <a href="#blog" class="btn btn-gold">Ver posts →</a>
+          <a href="#projetos" class="btn btn-outline">Projetos</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number">3+</div>
+          <div class="stat-label">Anos em eletrotécnica</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">EE</div>
+          <div class="stat-label">IFBA · 1º semestre</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">IBE</div>
+          <div class="stat-label">Grupo Iberdrola</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-    <section id="contato" class="wrap">
-      <h2>Contato</h2>
-      <p>Aberto a oportunidades e parcerias em eletrotécnica, computação e interseções.</p>
-      <embed
-  src="https://leandrorodriguez.com.br/cv.pdf"
-  type="application/pdf"
-  width="100%"
-  height="800"
-/>
-
-      <ul>
-        <li><a href="mailto:contato@leandrorodriguez.com.br"> contato@leandrorodriguez.com.br</a></li>
-        <li><a href="https://www.linkedin.com/in/leandromacielrodriguez/"> LinkedIn</a></li>
-      </ul>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap small">
-      <p class="footlinks">
-        <a href="#sobre">sobre</a>•<a href="#blog">blog</a>•<a href="#contato">contato</a>
-      </p>
-      <p class="muted">© 2025 Leandro Maciel. Sem cookies. Sem JS. Sem rastreadores.</p>
+<section id="blog">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Escrita técnica</div>
+        <h2 class="section-title">Posts recentes</h2>
+      </div>
+      <a href="/blog" class="see-all">arquivo completo →</a>
     </div>
-  </footer>
+    <div class="posts-list">
+
+      <article class="post-item" onclick="location.href='/blog/protecao-diferencial'">
+        <div class="post-left">
+          <div class="post-date">2026-04-20</div>
+          <span class="post-tag">Sistemas de Potência</span>
+        </div>
+        <div>
+          <h3 class="post-title">Proteção diferencial em transformadores: fundamentos e ajuste</h3>
+          <p class="post-excerpt">Como o relé diferencial detecta faltas internas, os desafios da corrente de inrush e os critérios de ajuste utilizados na prática de distribuição.</p>
+        </div>
+        <div class="post-arrow">→</div>
+      </article>
+
+      <article class="post-item" onclick="location.href='/blog/pandas-engenharia'">
+        <div class="post-left">
+          <div class="post-date">2026-03-15</div>
+          <span class="post-tag">Programação</span>
+        </div>
+        <div>
+          <h3 class="post-title">Python e pandas para análise de dados elétricos</h3>
+          <p class="post-excerpt">Manipulação de dados de medição de campo, cálculo de fator de potência e geração automatizada de relatórios em ambiente corporativo.</p>
+        </div>
+        <div class="post-arrow">→</div>
+      </article>
+
+      <article class="post-item" onclick="location.href='/blog/laborem-exercens'">
+        <div class="post-left">
+          <div class="post-date">2026-02-27</div>
+          <span class="post-tag">Filosofia</span>
+        </div>
+        <div>
+          <h3 class="post-title">De Finibus Bonorum et Malorum — sobre o trabalho e a técnica</h3>
+          <p class="post-excerpt">Leitura cruzada entre filosofia clássica e a encíclica <em>Laborem Exercens</em>, pensando o sentido do trabalho técnico em engenharia.</p>
+        </div>
+        <div class="post-arrow">→</div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="projetos">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Engenharia aplicada</div>
+        <h2 class="section-title">Projetos pessoais</h2>
+      </div>
+      <a href="/projetos" class="see-all">todos os projetos →</a>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <h3 class="project-title">Monitor de qualidade de energia</h3>
+        <p class="project-desc">Dispositivo baseado em ESP32 para medição de THD, fator de potência e desequilíbrio de tensão com envio via MQTT.</p>
+        <div class="project-tags">
+          <span class="tag">ESP32</span><span class="tag">MQTT</span>
+          <span class="tag">INA228</span><span class="tag">Python</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <h3 class="project-title">Dimensionamento automatizado de alimentadores</h3>
+        <p class="project-desc">Script Python que processa planilha de cargas e gera dimensionamento de condutores e proteções conforme ABNT NBR 5410.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span><span class="tag">NBR 5410</span>
+          <span class="tag">pandas</span><span class="tag">openpyxl</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <h3 class="project-title">Inversor monofásico senoidal</h3>
+        <p class="project-desc">Inversor baseado em STM32 com SPWM, projeto de filtro LC de saída e análise harmônica via FFT. Documentação de hardware e firmware.</p>
+        <div class="project-tags">
+          <span class="tag">STM32</span><span class="tag">SPWM</span>
+          <span class="tag">Power Electronics</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">04</div>
+        <h3 class="project-title">Dashboard de portfólio de obras</h3>
+        <p class="project-desc">Painel Power BI com KPIs de cronograma físico-financeiro e alertas de desvio por empreendimento.</p>
+        <div class="project-tags">
+          <span class="tag">Power BI</span><span class="tag">SQL</span>
+          <span class="tag">DAX</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="section-inner">
+    <div class="section-label" style="margin-bottom:2rem;">Identidade</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <h2 class="section-title" style="margin-bottom:1.75rem;">Sobre</h2>
+        <p>Tenho 18 anos, sou de Salvador e estou no primeiro semestre de Engenharia Elétrica no IFBA. Paralelamente, trabalho como estagiário na Neoenergia Coelba (grupo Iberdrola) na programação de carteira de obras de expansão e preservação de rede para o estado inteiro.</p>
+        <p>Tenho formação técnica em eletrotécnica e me interesso por sistemas de potência, eletrônica de potência, software aplicado à engenharia. Além da área técnica, tenho interesse nos gregos, na física e em artes marciais, e acredito que a engenharia só faz sentido quando conectada a uma visão mais ampla do mundo.</p>
+        <p>Este site é minha tentativa sincera de documentar projetos, pensar em voz alta e manter um registro do que aprendo e penso. Sem tracker. Sem cookies. Sem framework desnecessário.</p>
+      </div>
+      <div class="about-sidebar">
+        <div class="sidebar-block">
+          <div class="sidebar-title">Atualmente</div>
+          <ul class="sidebar-list">
+            <li>Estágio — Neoenergia Coelba</li>
+            <li>EE, 1º semestre — IFBA</li>
+            <li>Alemão (meta B1/B2)</li>
+            <li>GWO BST em preparação</li>
+          </ul>
+        </div>
+        <div class="sidebar-block">
+          <div class="sidebar-title">Interesses técnicos</div>
+          <ul class="sidebar-list">
+            <li>Sistemas de potência</li>
+            <li>Eletrônica de potência</li>
+            <li>Automação industrial</li>
+            <li>Python e data engineering</li>
+          </ul>
+        </div>
+        <div class="sidebar-block">
+          <div class="sidebar-title">Leituras</div>
+          <ul class="sidebar-list">
+            <li>Paideia</li>
+            <li>Vidas Paralelas</li>
+            <li>A Voyage for Madmen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="section-inner">
+    <div class="contact-inner">
+      <div class="section-label" style="text-align:center;">Contato</div>
+      <h2 class="contact-title">O mundo é<br><em>seu.</em></h2>
+      <p class="contact-sub">Aberto a oportunidades, parcerias técnicas e conversas sobre engenharia, código ou filosofia.</p>
+      <div class="contact-links">
+        <a href="mailto:contato@leandrorodriguez.com.br" class="btn btn-gold">contato@leandrorodriguez.com.br</a>
+        <a href="https://www.linkedin.com/in/leandromacielrodriguez/" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn →</a>
+        <a href="https://github.com/" target="_blank" rel="noopener" class="btn btn-outline">GitHub →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      © 2026 Leandro Maciel · Salvador, Brasil ·
+      Sem cookies. Sem JS desnecessário. Sem rastreadores.
+    </div>
+    <div class="footer-links">
+      <a href="#blog">Blog</a>
+      <a href="#projetos">Projetos</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">Source</a>
+      <a href="/feed.xml">RSS</a>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
